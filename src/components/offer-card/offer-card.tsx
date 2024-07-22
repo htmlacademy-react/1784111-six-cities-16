@@ -21,14 +21,16 @@ function OfferCard({offer, cardType}: OfferCardProps): JSX.Element {
     isFavorite
   } = offer;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [activeCardId, setActiveCardId] = useState<string | null>(null);
+  // const [activeCardId, setActiveCardId] = useState<string | null>(null);
   const offerPageUrl = `/offer/${id}`;
   const normalizedType = type[0].toUpperCase() + type.slice(1);
   const normalizedRating = Math.ceil(rating);
 
   return (
-    <article onClick={() => setActiveCardId(id)} className={`${cardType === 'cities' ? 'cities__card' : 'favorites__card'} place-card`}>
+    <article
+      // onClick={() => setActiveCardId(id)}
+      className={`${cardType === 'cities' ? 'cities__card' : 'favorites__card'} place-card`}
+    >
       {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
