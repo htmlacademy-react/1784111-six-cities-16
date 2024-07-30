@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
 import Bookmark from '../bookmark/bookmark';
@@ -6,11 +5,12 @@ import Bookmark from '../bookmark/bookmark';
 type OfferCardProps = {
   offer: Offer;
   cardType: string;
+  onMouseEnter?: (id: string) => void;
 }
 
 const RATING_STAR_WIDTH = 20;
 
-function OfferCard({offer, cardType}: OfferCardProps): JSX.Element {
+function OfferCard({offer, cardType, onMouseEnter}: OfferCardProps): JSX.Element {
   const {
     id,
     title,
@@ -21,14 +21,19 @@ function OfferCard({offer, cardType}: OfferCardProps): JSX.Element {
     isFavorite
   } = offer;
 
-  // const [activeCardId, setActiveCardId] = useState<string | null>(null);
   const offerPageUrl = `/offer/${id}`;
   const normalizedType = type[0].toUpperCase() + type.slice(1);
   const normalizedRating = Math.ceil(rating);
 
+  const handleMouseEnter = () => {
+    if (onMouseEnter) {
+      onMouseEnter(id);
+    }
+  };
+
   return (
     <article
-      // onClick={() => setActiveCardId(id)}
+      onMouseEnter={handleMouseEnter}
       className={`${cardType === 'cities' ? 'cities__card' : 'favorites__card'} place-card`}
     >
       {isPremium &&
