@@ -9,18 +9,84 @@ export const offers: Offers = [
     'city': {
       'name': 'Amsterdam',
       'location': {
-        'latitude': 52.35514938496378,
-        'longitude': 4.673877537499948,
+        'latitude': 52.3909553943508,
+        'longitude': 4.85309666406198,
         'zoom': 8
       }},
     'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
+      'latitude': 52.3909553943508,
+      'longitude': 4.85309666406198,
       'zoom': 8
     },
     'isFavorite': false,
     'isPremium': false,
     'rating': 4,
+    'previewImage': 'https://url-to-image/image.png'
+  },
+  {
+    'id': '0af9f914-c28d-4121-82cd-e0b682a27f00',
+    'title': 'Some description',
+    'type': 'apartment',
+    'price': 1200,
+    'city': {
+      'name': 'Amsterdam',
+      'location': {
+        'latitude': 52.3609553943508,
+        'longitude': 4.85309666406198,
+        'zoom': 8
+      }},
+    'location': {
+      'latitude': 52.3609553943508,
+      'longitude': 4.85309666406198,
+      'zoom': 8
+    },
+    'isFavorite': true,
+    'isPremium': true,
+    'rating': 3,
+    'previewImage': 'https://url-to-image/image.png'
+  },
+  {
+    'id': '0af9f914-c28d-9371-82cd-e0b682a27f00',
+    'title': 'Another description',
+    'type': 'apartment',
+    'price': 100,
+    'city': {
+      'name': 'Amsterdam',
+      'location': {
+        'latitude': 52.3909553943508,
+        'longitude': 4.929309666406198,
+        'zoom': 8
+      }},
+    'location': {
+      'latitude': 52.3909553943508,
+      'longitude': 4.929309666406198,
+      'zoom': 8
+    },
+    'isFavorite': true,
+    'isPremium': true,
+    'rating': 2,
+    'previewImage': 'https://url-to-image/image.png'
+  },
+  {
+    'id': '0af9f914-c99d-9371-82cd-e0b132a27f00',
+    'title': 'Another desc',
+    'type': 'apartment',
+    'price': 100,
+    'city': {
+      'name': 'Amsterdam',
+      'location': {
+        'latitude': 52.3809553943508,
+        'longitude': 4.939309666406198,
+        'zoom': 8
+      }},
+    'location': {
+      'latitude': 52.3809553943508,
+      'longitude': 4.939309666406198,
+      'zoom': 8
+    },
+    'isFavorite': false,
+    'isPremium': true,
+    'rating': 5,
     'previewImage': 'https://url-to-image/image.png'
   },
   {
@@ -277,4 +343,8 @@ export const offerFull: OffersFull = [
 
 export function findOfferById(id: string): OfferFull | undefined {
   return offerFull.find((offer) => offer.id === id);
+}
+
+export function findOffersByCity(cityName: string): Offers | [] {
+  return offers.filter(({city}) => city.name === cityName);
 }
