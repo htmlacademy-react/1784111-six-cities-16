@@ -1,19 +1,15 @@
 import { useState } from 'react';
 import Header from '../../components/header/header';
-import { Offers, Offer } from '../../types/offer';
+import { Offer } from '../../types/offer';
 import OffersList from '../../components/offers-list/offers-list';
-import { findOffersByCity } from '../../mocks/offers';
+import LocationsList from '../../components/locationsList/locations-list';
+import { findOffersByCity } from '../../utils/utils';
 import Map from '../../components/map/map';
+import { useAppSelector } from '../../hooks';
 
-type MainPageProps = {
-  offers: Offers;
-}
-
-const AVAILABLE_CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
-const DEFAULT_CITY = 'Amsterdam';
-
-function MainPage({offers}: MainPageProps): JSX.Element {
-  const [activeCity, setActiveCity] = useState(DEFAULT_CITY);
+function MainPage(): JSX.Element {
+  const activeCity = useAppSelector((state) => state.city);
+  const offers = useAppSelector((state) => state.offers);
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
 
   const handleOffersListHover = (offerItemId: string) => {
@@ -21,10 +17,7 @@ function MainPage({offers}: MainPageProps): JSX.Element {
     setSelectedOffer(currentOffer);
   };
 
-  const handleSpanClick = (e: React.MouseEvent<HTMLSpanElement>): void => {
-    setActiveCity(e.currentTarget.textContent || '');
-  };
-  const activeCityLength = findOffersByCity(activeCity)?.length;
+  const activeCityLength = findOffersByCity(activeCity, offers).length;
 
   return (
     <div className="page page--gray page--main">
@@ -32,20 +25,7 @@ function MainPage({offers}: MainPageProps): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              {AVAILABLE_CITIES.map((city) => {
-                const classes = city === activeCity ? 'locations__item-link tabs__item tabs__item--active' : 'locations__item-link tabs__item';
-                return (
-                  <li key={crypto.randomUUID()} className="locations__item">
-                    <a className={classes} href="#">
-                      <span onClick={(e) => handleSpanClick(e)}>{city}</span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
+          <LocationsList />
         </div>
         <div className="cities">
           <div className="cities__places-container container">
@@ -70,12 +50,12 @@ function MainPage({offers}: MainPageProps): JSX.Element {
                       <li className="places__option" tabIndex={0}>Top rated first</li>
                     </ul>
                   </form>
-                  <OffersList onOffersListHover={handleOffersListHover} offers={findOffersByCity(activeCity)} />
+                  <OffersList onOffersListHover={handleOffersListHover} />
                 </>}
             </section>
             {activeCityLength ?
               <div className="cities__right-section">
-                <Map city={activeCity} selectedOffer={selectedOffer} />
+                <Map selectedOffer={selectedOffer} />
               </div> : null}
           </div>
         </div>
