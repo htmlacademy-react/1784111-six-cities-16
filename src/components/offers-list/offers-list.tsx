@@ -1,20 +1,24 @@
 import OfferCard from '../offer-card/offer-card';
-import { Offers } from '../../types/offer';
+import { useAppSelector } from '../../hooks';
+import { findOffersByCity } from '../../utils/utils';
 
 type OffersListProps = {
-  offers: Offers;
   onOffersListHover: (offerItemId: string) => void;
 }
 
 
-function OffersList({offers, onOffersListHover}: OffersListProps): JSX.Element {
+function OffersList({onOffersListHover}: OffersListProps): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
+  const activeCity = useAppSelector((state) => state.city);
+  const offersByActiveCity = findOffersByCity(activeCity, offers);
+
   const handleOfferCardHover = (id: string) => {
     onOffersListHover(id);
   };
 
   return (
     <div className="cities__places-list places__list tabs__content">
-      {offers.map((offer) => {
+      {offersByActiveCity.map((offer) => {
         const {id} = offer;
         return (
           <OfferCard

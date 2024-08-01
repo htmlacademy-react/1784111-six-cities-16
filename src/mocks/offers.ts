@@ -344,7 +344,3 @@ export const offerFull: OffersFull = [
 export function findOfferById(id: string): OfferFull | undefined {
   return offerFull.find((offer) => offer.id === id);
 }
-
-export function findOffersByCity(cityName: string): Offers | [] {
-  return offers.filter(({city}) => city.name === cityName);
-}
