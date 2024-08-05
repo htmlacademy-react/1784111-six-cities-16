@@ -1,14 +1,13 @@
 import {useRef, useEffect} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Offer } from '../../types/offer';
+import { Offer, Offers } from '../../types/offer';
 import useMap from '../../hooks/use-map';
-import { findOffersByCity } from '../../utils/utils';
 import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
-import { useAppSelector } from '../../hooks';
 
 type MapProps = {
   selectedOffer: Offer | null;
+  offersByActiveCity: Offers;
 }
 
 const defaultCustomIcon = new Icon({
@@ -23,11 +22,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function Map({selectedOffer}: MapProps): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
-  const activeCity = useAppSelector((state) => state.city);
-
-  const offersByActiveCity = findOffersByCity(activeCity, offers);
+function Map({selectedOffer, offersByActiveCity}: MapProps): JSX.Element {
   const defaultCoordinats = offersByActiveCity[0].city.location;
   const mapRef = useRef(null);
   const map = useMap(mapRef, defaultCoordinats);
