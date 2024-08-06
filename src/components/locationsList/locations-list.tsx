@@ -1,9 +1,12 @@
 import { AVAILABLE_CITIES } from '../../const';
-import { useAppSelector, useAppDispatch } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
 import { activeCityAction } from '../../store/action';
 
-function LocationsList() {
-  const activeCity = useAppSelector((state) => state.city);
+type LocationsListProps = {
+  activeCity: string;
+}
+
+function LocationsList({activeCity}: LocationsListProps) {
   const dispatch = useAppDispatch();
 
   const handleSpanClick = (e: React.MouseEvent<HTMLSpanElement>): void => {
