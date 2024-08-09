@@ -1,4 +1,4 @@
-import {useRef, useEffect} from 'react';
+import {useRef, useEffect, useState} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Offer, Offers } from '../../types/offer';
@@ -23,12 +23,21 @@ const currentCustomIcon = new Icon({
 });
 
 function Map({selectedOffer, offersByActiveCity}: MapProps): JSX.Element {
-  const defaultCoordinats = offersByActiveCity[0].city.location;
+  const [defaultCoordinats, setDefaultCoordinats] = useState(offersByActiveCity[0].city.location);
+
+  useEffect(() => {
+    if (offersByActiveCity.length > 0) {
+      const activeCityLocation = offersByActiveCity[0].city.location;
+      setDefaultCoordinats(activeCityLocation);
+    }
+  }, [offersByActiveCity]);
+
   const mapRef = useRef(null);
   const map = useMap(mapRef, defaultCoordinats);
 
   useEffect(() => {
     if (map) {
+      map.setView([defaultCoordinats.latitude, defaultCoordinats.longitude], defaultCoordinats.zoom);
       const markerLayer = layerGroup().addTo(map);
       offersByActiveCity.forEach((offer) => {
         const marker = new Marker({
@@ -49,7 +58,7 @@ function Map({selectedOffer, offersByActiveCity}: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offersByActiveCity, selectedOffer]);
+  }, [map, offersByActiveCity, selectedOffer, defaultCoordinats]);
 
   return (
     <section

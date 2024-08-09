@@ -8,7 +8,7 @@ type PlacesOptionsProps = {
 }
 
 function PlacesOptions({activeSortingType}:PlacesOptionsProps) {
-  const [isMenuOpened, setMenuOpened] = useState(true);
+  const [isMenuOpened, setMenuOpened] = useState(false);
   const dispatch = useAppDispatch();
 
   const ulClasses = `places__options places__options--custom${isMenuOpened ? ' places__options--opened' : ''}`;
