@@ -1,6 +1,12 @@
-import axios, {AxiosInstance, AxiosResponse, AxiosError} from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosResponse,
+  AxiosError,
+  InternalAxiosRequestConfig
+} from 'axios';
 import {toast} from 'react-toastify';
 import {StatusCodes} from 'http-status-codes';
+import {getToken} from './token';
 
 type DetailMessageType = {
   type: string;
@@ -27,6 +33,18 @@ export const createAPI = (): AxiosInstance => {
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
   });
+
+  api.interceptors.request.use(
+    (config: InternalAxiosRequestConfig) => {
+      const token = getToken();
+
+      if (token && config.headers) {
+        config.headers['x-token'] = token;
+      }
+
+      return config;
+    },
+  );
 
   api.interceptors.response.use(
     (response) => response,
