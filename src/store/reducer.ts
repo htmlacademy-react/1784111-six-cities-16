@@ -5,10 +5,14 @@ import {
   activeSortingTypeAction,
   setOffersDataLoadingStatus,
   requireAuthorization,
-  getUserData
+  getUserData,
+  getOfferById,
+  getNearOffers,
+  getComments,
 } from './action';
 import {DEFAULT_CITY, DEFAULT_SORTTING_TYPE, AuthorizationStatus} from '../const';
-import { Offers } from '../types/offer';
+import { Offers, OfferFull } from '../types/offer';
+import { Comments } from '../types/comment';
 
 type initialState = {
   city: string;
@@ -18,6 +22,9 @@ type initialState = {
   authorizationStatus: string;
   userEmail: string | null;
   userAvatar: string | null;
+  offer: OfferFull | null;
+  nearOffers: Offers;
+  comments: Comments;
 };
 
 const initialState: initialState = {
@@ -27,7 +34,10 @@ const initialState: initialState = {
   isOffersDataLoading: true,
   authorizationStatus: AuthorizationStatus.Unknown,
   userEmail: null,
-  userAvatar: null
+  userAvatar: null,
+  offer: null,
+  nearOffers: [],
+  comments: []
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -51,6 +61,15 @@ const reducer = createReducer(initialState, (builder) => {
       const {email, avatarUrl} = action.payload;
       state.userAvatar = avatarUrl;
       state.userEmail = email;
+    })
+    .addCase(getOfferById, (state, action) => {
+      state.offer = action.payload;
+    })
+    .addCase(getNearOffers, (state, action) => {
+      state.nearOffers = action.payload;
+    })
+    .addCase(getComments, (state, action) => {
+      state.comments = action.payload;
     });
 });
 

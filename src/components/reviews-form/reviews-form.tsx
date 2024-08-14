@@ -1,18 +1,26 @@
 import { useState } from 'react';
-import FormRatinInput from '../form-rating-input/form-rating-input';
+import FormRatingInput from '../form-rating-input/form-rating-input';
+import { sendCommentAction } from '../../store/api-actions';
+import { store } from '../../store';
+
+type ReviewsFormProps = {
+  id: string | undefined;
+}
 
 const MAX_REVIEWS_RARING = 5;
 const REVIEWS_RATING_TITLES = ['perfect', 'good', 'not bad', 'badly', 'terribly'];
 
-function ReviewsForm() {
+function ReviewsForm({id}: ReviewsFormProps) {
   const [rating, setRating] = useState<number | ''>('');
+  const [checkedRating, setCheckedRating] = useState<number | null>(null);
   const [reviewText, setReviewText] = useState('');
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
   const handleRatingChange = (ratingValue: number) => {
+    setCheckedRating(ratingValue);
     setRating(ratingValue);
 
-    if (rating !== '') {
+    if (rating !== '' && (reviewText.length >= 50 && reviewText.length <= 300)) {
       setIsSubmitDisabled(false);
     }
   };
@@ -20,15 +28,33 @@ function ReviewsForm() {
   const handleReviewTextChange = (value: string) => {
     setReviewText(value);
 
-    if (value.length >= 50 && value.length <= 300) {
+    if (value.length >= 50 && value.length <= 300 && rating !== '') {
       setIsSubmitDisabled(false);
     } else {
       setIsSubmitDisabled(true);
     }
   };
 
+  const clearForm = () => {
+    setRating('');
+    setReviewText('');
+    setCheckedRating(null);
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const processSubmission = async () => {
+      if (id !== undefined) {
+        await store.dispatch(sendCommentAction({
+          id,
+          comment: reviewText,
+          rating
+        }));
+        clearForm();
+        setIsSubmitDisabled(true);
+      }
+    };
+    processSubmission();
   };
 
   return (
@@ -38,10 +64,11 @@ function ReviewsForm() {
         {REVIEWS_RATING_TITLES.map((title, index) => {
           const ratingNumber = MAX_REVIEWS_RARING - index;
           return (
-            <FormRatinInput
+            <FormRatingInput
               key={crypto.randomUUID()}
               title={title}
               rating={ratingNumber}
+              checkedRating={checkedRating}
               onFormRatinInputChange={handleRatingChange}
             />
           );
