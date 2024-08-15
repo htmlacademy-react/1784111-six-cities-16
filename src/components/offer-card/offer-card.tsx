@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offer';
 import Bookmark from '../bookmark/bookmark';
+import useScrollToTop from '../../hooks/use-sroll-to-top';
 
 type OfferCardProps = {
   offer: Offer;
@@ -21,13 +22,10 @@ function OfferCard({offer, cardType, onMouseEnter}: OfferCardProps): JSX.Element
     isFavorite
   } = offer;
 
+  useScrollToTop();
   const offerPageUrl = `/offer/${id}`;
   const normalizedType = type[0].toUpperCase() + type.slice(1);
   const normalizedRating = Math.ceil(rating);
-
-  const scrollToTop = () => {
-    document.querySelector('header')?.scrollIntoView();
-  };
 
   const handleMouseEnter = () => {
     if (onMouseEnter) {
@@ -37,7 +35,6 @@ function OfferCard({offer, cardType, onMouseEnter}: OfferCardProps): JSX.Element
 
   return (
     <article
-      onClick={scrollToTop}
       onMouseEnter={handleMouseEnter}
       className={`${cardType}__card place-card`}
     >

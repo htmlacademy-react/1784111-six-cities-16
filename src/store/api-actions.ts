@@ -13,9 +13,8 @@ import {
 import { APIRoute, AuthorizationStatus } from '../const';
 import {AuthData} from '../types/auth-data';
 import {UserData, FullUserData} from '../types/user-data';
-import {saveToken, dropToken} from '../services/token';
+import {getToken, saveToken, dropToken} from '../services/token';
 import { getUserData } from './action';
-import { getToken } from '../services/token';
 import { Comments } from '../types/comment';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
@@ -87,13 +86,14 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
 }>(
   'user/checkAuth',
   async (_arg, {dispatch, extra: api}) => {
-    try {
-      const token = getToken();
-      if (!token) {
-        dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-        return;
-      }
+    const token = getToken();
 
+    if (!token) {
+      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+      return;
+    }
+
+    try {
       const response: AxiosResponse<FullUserData> = await api.get(APIRoute.Login);
       const userData: FullUserData = response.data;
       dispatch(getUserData(userData));

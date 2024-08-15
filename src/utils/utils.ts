@@ -16,3 +16,27 @@ export function sortOffersByType(type: string, offersList: Offers): Offers {
       return offersList;
   }
 }
+
+export function formatDateToCustomFormat(dateString: string, format: string) {
+  const date = new Date(dateString);
+
+  let options: Intl.DateTimeFormatOptions;
+
+  switch (format) {
+    case 'MMMM YYYY':
+      options = { month: 'long', year: 'numeric' };
+      break;
+    case 'YYYY-MM-DD':
+      options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+      break;
+    default:
+      throw new Error(`Unsupported format: ${format}`);
+  }
+
+  const formatter = new Intl.DateTimeFormat('en-US', options);
+  const formattedDate = formatter.format(date);
+
+  return formattedDate;
+}
+
+export const normalizedRating = (rating: number) => Math.ceil(rating);

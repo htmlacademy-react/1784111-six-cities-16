@@ -1,13 +1,14 @@
-import {useRef, useEffect, useState} from 'react';
+import {useRef, useEffect, useState, useMemo} from 'react';
 import {Icon, Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Offer, Offers } from '../../types/offer';
+import { Offer, OfferFull, Offers } from '../../types/offer';
 import useMap from '../../hooks/use-map';
 import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
 
 type MapProps = {
-  selectedOffer: Offer | null;
-  offersByActiveCity: Offers;
+  type?: string;
+  selectedOffer: Offer | OfferFull | null;
+  offers: Offers;
 }
 
 const defaultCustomIcon = new Icon({
@@ -22,49 +23,82 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function Map({selectedOffer, offersByActiveCity}: MapProps): JSX.Element {
-  const [defaultCoordinats, setDefaultCoordinats] = useState(offersByActiveCity[0].city.location);
+const CARDS_FOR_VIEW = 3;
+
+function Map({type, selectedOffer, offers}: MapProps): JSX.Element {
+  const [defaultCoordinats, setDefaultCoordinats] = useState(
+    type === 'offerPageMap' && selectedOffer !== null ?
+      selectedOffer.city.location :
+      offers[0].city.location
+  );
 
   useEffect(() => {
-    if (offersByActiveCity.length > 0) {
-      const activeCityLocation = offersByActiveCity[0].city.location;
+    if (offers.length > 0 && type !== 'offerPageMap') {
+      const activeCityLocation = offers[0].city.location;
       setDefaultCoordinats(activeCityLocation);
+    } else {
+      if (selectedOffer !== null) {
+        const activeCityLocation = selectedOffer.city.location;
+        setDefaultCoordinats(activeCityLocation);
+      }
     }
-  }, [offersByActiveCity]);
+  }, [offers, type, selectedOffer]);
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, defaultCoordinats);
+
+  const cardOffers = useMemo(() => {
+    if (type === 'offerPageMap') {
+      return [selectedOffer, ...offers.slice(0, CARDS_FOR_VIEW)];
+    } else {
+      return offers;
+    }
+  }, [type, selectedOffer, offers]);
 
   useEffect(() => {
     if (map) {
       map.setView([defaultCoordinats.latitude, defaultCoordinats.longitude], defaultCoordinats.zoom);
       const markerLayer = layerGroup().addTo(map);
-      offersByActiveCity.forEach((offer) => {
-        const marker = new Marker({
-          lat: offer.location.latitude,
-          lng: offer.location.longitude,
-        });
+      cardOffers.forEach((offer) => {
+        if (offer !== null) {
+          const marker = new Marker({
+            lat: offer.location.latitude,
+            lng: offer.location.longitude,
+          });
 
-        marker
-          .setIcon(
-            selectedOffer !== null && offer.id === selectedOffer.id
-              ? currentCustomIcon
-              : defaultCustomIcon
-          )
-          .addTo(markerLayer);
+          marker
+            .setIcon(
+              selectedOffer !== null && offer.id === selectedOffer.id
+                ? currentCustomIcon
+                : defaultCustomIcon
+            )
+            .addTo(markerLayer);
+        }
+        // const marker = new Marker({
+        //   lat: offer.location.latitude,
+        //   lng: offer.location.longitude,
+        // });
+
+        // marker
+        //   .setIcon(
+        //     selectedOffer !== null && offer.id === selectedOffer.id
+        //       ? currentCustomIcon
+        //       : defaultCustomIcon
+        //   )
+        //   .addTo(markerLayer);
       });
 
       return () => {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offersByActiveCity, selectedOffer, defaultCoordinats]);
+  }, [map, cardOffers, selectedOffer, defaultCoordinats]);
 
   return (
     <section
       style={{height: '500px'}}
       ref={mapRef}
-      className="cities__map map"
+      className={type === 'offerPageMap' ? 'offer__map map' : 'cities__map map'}
     >
     </section>
   );

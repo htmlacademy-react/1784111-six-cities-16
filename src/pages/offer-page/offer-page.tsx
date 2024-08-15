@@ -9,13 +9,13 @@ import { useAppSelector } from '../../hooks';
 import NearPlaces from '../../components/near-places/near-places';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import { AuthorizationStatus } from '../../const';
-
-const RATING_STAR_WIDTH = 20;
+import { RATING_STAR_WIDTH } from '../../const';
+import { normalizedRating } from '../../utils/utils';
+import Map from '../../components/map/map';
 
 function OfferPage(): JSX.Element {
   const navigate = useNavigate();
   const { id } = useParams();
-  const normalizedRating = (rating: number) => Math.ceil(rating);
   const offer = useAppSelector((state) => state.offer);
   const nearOffers = useAppSelector((state) => state.nearOffers);
   const comments = useAppSelector((state) => state.comments);
@@ -127,15 +127,17 @@ function OfferPage(): JSX.Element {
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
                 <ReviewsList
                   comments={comments}
-                  normalizedRating={normalizedRating}
-                  ratingStarWidth={RATING_STAR_WIDTH}
                 />
                 {authorizationStatus as AuthorizationStatus === AuthorizationStatus.Auth &&
                   <ReviewsForm id={id} />}
               </section>
             </div>
           </div>
-          <section className="offer__map map"></section>
+          <Map
+            type={'offerPageMap'}
+            selectedOffer={offer}
+            offers={nearOffers}
+          />
         </section>
         <div className="container">
           <NearPlaces nearOffers={nearOffers} />
