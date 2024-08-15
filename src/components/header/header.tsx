@@ -13,6 +13,7 @@ function Header(): JSX.Element {
   const handleLogout = () => {
     dispatch(logoutAction());
   };
+
   return (
     <header className="header">
       <div className="container">

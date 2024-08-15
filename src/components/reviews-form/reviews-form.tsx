@@ -16,11 +16,13 @@ function ReviewsForm({id}: ReviewsFormProps) {
   const [reviewText, setReviewText] = useState('');
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
+  const isTextMatch = (text: string) => text.length >= 50 && text.length <= 300;
+
   const handleRatingChange = (ratingValue: number) => {
     setCheckedRating(ratingValue);
     setRating(ratingValue);
 
-    if (rating !== '' && (reviewText.length >= 50 && reviewText.length <= 300)) {
+    if (rating !== '' && isTextMatch(reviewText)) {
       setIsSubmitDisabled(false);
     }
   };
@@ -28,7 +30,7 @@ function ReviewsForm({id}: ReviewsFormProps) {
   const handleReviewTextChange = (value: string) => {
     setReviewText(value);
 
-    if (value.length >= 50 && value.length <= 300 && rating !== '') {
+    if (isTextMatch(value) && rating !== '') {
       setIsSubmitDisabled(false);
     } else {
       setIsSubmitDisabled(true);

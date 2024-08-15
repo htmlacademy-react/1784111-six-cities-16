@@ -33,3 +33,5 @@ export const AVAILABLE_CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'H
 export const DEFAULT_SORTTING_TYPE = 'Popular';
 
 export const SORTING_TYPES = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
+
+export const RATING_STAR_WIDTH = 20;

@@ -51,7 +51,7 @@ function MainPage(): JSX.Element {
             {activeCityLength ?
               <div className="cities__right-section">
                 <Map
-                  offersByActiveCity={offersByActiveCity}
+                  offers={offersByActiveCity}
                   selectedOffer={selectedOffer}
                 />
               </div> : null}
