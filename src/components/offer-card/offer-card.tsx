@@ -25,6 +25,10 @@ function OfferCard({offer, cardType, onMouseEnter}: OfferCardProps): JSX.Element
   const normalizedType = type[0].toUpperCase() + type.slice(1);
   const normalizedRating = Math.ceil(rating);
 
+  const scrollToTop = () => {
+    document.querySelector('header')?.scrollIntoView();
+  };
+
   const handleMouseEnter = () => {
     if (onMouseEnter) {
       onMouseEnter(id);
@@ -33,16 +37,17 @@ function OfferCard({offer, cardType, onMouseEnter}: OfferCardProps): JSX.Element
 
   return (
     <article
+      onClick={scrollToTop}
       onMouseEnter={handleMouseEnter}
-      className={`${cardType === 'cities' ? 'cities__card' : 'favorites__card'} place-card`}
+      className={`${cardType}__card place-card`}
     >
       {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
-      <div className={`${cardType === 'cities' ? 'cities__image-wrapper' : 'favorites__image-wrapper'} place-card__image-wrapper`}>
+      <div className={`${cardType}__image-wrapper'} place-card__image-wrapper`}>
         <Link to={offerPageUrl}>
-          <img className="place-card__image" src="img/apartment-01.jpg" width={cardType === 'cities' ? 260 : 150} height={cardType === 'cities' ? 200 : 110} alt="Place image" />
+          <img className="place-card__image" src="img/apartment-01.jpg" width={cardType === 'favorites' ? 150 : 260} height={cardType === 'favorites' ? 110 : 200} alt="Place image" />
         </Link>
       </div>
       <div className="place-card__info">
