@@ -1,6 +1,6 @@
 import { AVAILABLE_CITIES } from '../../const';
 import { useAppDispatch } from '../../hooks';
-import { activeCityAction } from '../../store/action';
+import { setActiveCity } from '../../store/app-data/app-data';
 
 type LocationsListProps = {
   activeCity: string;
@@ -11,7 +11,7 @@ function LocationsList({activeCity}: LocationsListProps) {
 
   const handleSpanClick = (e: React.MouseEvent<HTMLSpanElement>): void => {
     if (e.currentTarget.textContent) {
-      dispatch(activeCityAction(e.currentTarget.textContent));
+      dispatch(setActiveCity(e.currentTarget.textContent));
     }
   };
 

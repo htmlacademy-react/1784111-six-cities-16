@@ -18,7 +18,7 @@ function OffersList({offersBySortingType, onOffersListHover}: OffersListProps): 
         return (
           <OfferCard
             onMouseEnter={() => handleOfferCardHover(id)}
-            key={id}
+            key={crypto.randomUUID()}
             offer={offer}
             cardType={'cities'}
           />);
