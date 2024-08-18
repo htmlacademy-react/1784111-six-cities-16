@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo, useCallback } from 'react';
 import Header from '../../components/header/header';
 import PlacesOptions from '../../components/places-options/places-options';
 import { Offer } from '../../types/offer';
@@ -7,21 +7,26 @@ import LocationsList from '../../components/locationsList/locations-list';
 import { findOffersByCity, sortOffersByType } from '../../utils/utils';
 import Map from '../../components/map/map';
 import { useAppSelector } from '../../hooks';
+import { getOffers } from '../../store/offers-data/selectors';
+import { getActiveSortingType, getActiveCity } from '../../store/app-data/selectors';
+
+const MemoizedOffersList = memo(OffersList);
 
 function MainPage(): JSX.Element {
-  const activeCity = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers);
-  const activeSortingType = useAppSelector((state) => state.activeSortingType);
+  const activeCity = useAppSelector(getActiveCity);
+  const offers = useAppSelector(getOffers);
+  const activeSortingType = useAppSelector(getActiveSortingType);
 
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
 
-  const handleOffersListHover = (offerItemId: string) => {
+  const handleOffersListHover = useCallback((offerItemId: string) => {
     const currentOffer = offers.find((offer) => offer.id === offerItemId) || null;
     setSelectedOffer(currentOffer);
-  };
+  }, [offers]);
 
   const offersByActiveCity = findOffersByCity(activeCity, offers);
   const offersBySortingType = sortOffersByType(activeSortingType, offersByActiveCity);
+
   const activeCityLength = offersByActiveCity.length;
 
   return (
@@ -42,7 +47,7 @@ function MainPage(): JSX.Element {
                   <PlacesOptions
                     activeSortingType={activeSortingType}
                   />
-                  <OffersList
+                  <MemoizedOffersList
                     offersBySortingType={offersBySortingType}
                     onOffersListHover={handleOffersListHover}
                   />

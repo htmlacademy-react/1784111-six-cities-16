@@ -74,18 +74,6 @@ function Map({type, selectedOffer, offers}: MapProps): JSX.Element {
             )
             .addTo(markerLayer);
         }
-        // const marker = new Marker({
-        //   lat: offer.location.latitude,
-        //   lng: offer.location.longitude,
-        // });
-
-        // marker
-        //   .setIcon(
-        //     selectedOffer !== null && offer.id === selectedOffer.id
-        //       ? currentCustomIcon
-        //       : defaultCustomIcon
-        //   )
-        //   .addTo(markerLayer);
       });
 
       return () => {

@@ -4,6 +4,11 @@ export type UserData = {
   token: string;
 };
 
+export type ShortUserData = {
+  email: string | null;
+  avatarUrl: string | null;
+}
+
 export type FullUserData = {
   name: string;
   avatarUrl: string;

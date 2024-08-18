@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { SORTING_TYPES } from '../../const';
-import { activeSortingTypeAction } from '../../store/action';
+import { setActiveSortingType } from '../../store/app-data/app-data';
 
 type PlacesOptionsProps = {
   activeSortingType: string;
@@ -33,7 +33,7 @@ function PlacesOptions({activeSortingType}:PlacesOptionsProps) {
             <li
               onClick={() => {
                 setMenuOpened(!isMenuOpened);
-                dispatch(activeSortingTypeAction(type));
+                dispatch(setActiveSortingType(type));
               }}
               key={type}
               className={liClasses}

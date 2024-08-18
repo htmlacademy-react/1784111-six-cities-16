@@ -3,7 +3,11 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Bookmark from '../../components/bookmark/bookmark';
 import ReviewsForm from '../../components/reviews-form/reviews-form';
-import { fetchOfferByIdAction, fetchNearOffersAction, fetchCommentsAction } from '../../store/api-actions';
+import {
+  fetchOfferByIdAction,
+  fetchNearOffersAction,
+  fetchCommentsAction
+} from '../../store/api-actions';
 import { store } from '../../store';
 import { useAppSelector } from '../../hooks';
 import NearPlaces from '../../components/near-places/near-places';
@@ -12,14 +16,20 @@ import { AuthorizationStatus } from '../../const';
 import { RATING_STAR_WIDTH } from '../../const';
 import { normalizedRating } from '../../utils/utils';
 import Map from '../../components/map/map';
+import {
+  getOfferById,
+  getNearOffers,
+  getOfferComments
+} from '../../store/offers-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function OfferPage(): JSX.Element {
   const navigate = useNavigate();
   const { id } = useParams();
-  const offer = useAppSelector((state) => state.offer);
-  const nearOffers = useAppSelector((state) => state.nearOffers);
-  const comments = useAppSelector((state) => state.comments);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const offer = useAppSelector(getOfferById);
+  const nearOffers = useAppSelector(getNearOffers);
+  const comments = useAppSelector(getOfferComments);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -128,7 +138,7 @@ function OfferPage(): JSX.Element {
                 <ReviewsList
                   comments={comments}
                 />
-                {authorizationStatus as AuthorizationStatus === AuthorizationStatus.Auth &&
+                {authorizationStatus === AuthorizationStatus.Auth &&
                   <ReviewsForm id={id} />}
               </section>
             </div>
