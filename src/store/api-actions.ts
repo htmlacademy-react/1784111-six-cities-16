@@ -2,8 +2,7 @@ import {AxiosInstance, AxiosResponse} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import { Offers, OfferFull } from '../types/offer';
 import { State, AppDispatch } from '../types/state';
-import { APIRoute,
-} from '../const';
+import { APIRoute } from '../const';
 import {AuthData} from '../types/auth-data';
 import {UserData, FullUserData} from '../types/user-data';
 import {getToken, saveToken, dropToken} from '../services/token';
@@ -60,12 +59,36 @@ export const fetchCommentsAction = createAsyncThunk<Comments, string, {
   },
 );
 
+export const fetchFavoriteOffersAction = createAsyncThunk<Offers, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/offersFavorite',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<Offers>(APIRoute.Favorites);
+    return data;
+  },
+);
+
+export const changeCardFavoriteStatus = createAsyncThunk<void, {id: string; status: number}, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/cardFavoriteStatus',
+  async ({ id, status }, {dispatch, extra: api}) => {
+    await api.post(`${APIRoute.Favorites}/${id}/${status}`);
+    dispatch(fetchFavoriteOffersAction());
+  },
+);
+
 export const sendCommentAction = createAsyncThunk<void, { id: string; comment: string; rating: number | '' }, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'userComment',
+  'user/userComment',
   async ({id, comment, rating}, {dispatch, extra: api}) => {
     await api.post(`${APIRoute.Comments}/${id}`, { comment, rating });
     dispatch(fetchCommentsAction(id));
@@ -81,12 +104,10 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   'user/checkAuth',
   async (_arg, {dispatch, extra: api}) => {
     const token = getToken();
-
     if (!token) {
       dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
       return;
     }
-
     const response: AxiosResponse<FullUserData> = await api.get(APIRoute.Login);
     const userData: FullUserData = response.data;
     dispatch(setUserData(userData));

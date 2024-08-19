@@ -5,11 +5,22 @@ import { AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-actions';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getUserData } from '../../store/user-data/selectors';
+import { fetchFavoriteOffersAction } from '../../store/api-actions';
+import { store } from '../../store';
+import { useEffect } from 'react';
+import { getFavoriteOffers } from '../../store/offers-data/selectors';
 import Logo from '../logo/logo';
 
 function Header(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const favoritesOffers = useAppSelector(getFavoriteOffers);
   const {userEmail, userAvatar} = useAppSelector(getUserData);
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      store.dispatch(fetchFavoriteOffersAction());
+    }
+  }, [authorizationStatus]);
 
   const dispatch = useAppDispatch();
   const handleLogout = () => {
@@ -38,7 +49,7 @@ function Header(): JSX.Element {
                         <img src={userAvatar || undefined} alt="User Avatar" />
                       </div>
                       <span className="header__user-name user__name">{userEmail}</span>
-                      <span className="header__favorite-count">3</span>
+                      <span className="header__favorite-count">{favoritesOffers.length}</span>
                     </Link>
                   </li>
                   <li className="header__nav-item">

@@ -18,8 +18,7 @@ function OfferCard({offer, cardType, onMouseEnter}: OfferCardProps): JSX.Element
     isPremium,
     price,
     rating,
-    type,
-    isFavorite
+    type
   } = offer;
 
   useScrollToTop();
@@ -53,7 +52,7 @@ function OfferCard({offer, cardType, onMouseEnter}: OfferCardProps): JSX.Element
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <Bookmark isFavorite={isFavorite} />
+          <Bookmark cardId={id}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

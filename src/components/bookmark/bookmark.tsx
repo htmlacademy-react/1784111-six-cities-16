@@ -1,18 +1,37 @@
+import { AuthorizationStatus } from '../../const';
+import { useAppSelector } from '../../hooks';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { useNavigate } from 'react-router-dom';
+import { changeCardFavoriteStatus } from '../../store/api-actions';
+import { getFavoriteOffers } from '../../store/offers-data/selectors';
+import { store } from '../../store';
 import './bookmark.css';
-import { useState } from 'react';
 
 type BookmarkProps = {
-  isFavorite: boolean;
+  cardId: string;
   size?: string;
 }
 
-function Bookmark({isFavorite, size}: BookmarkProps): JSX.Element {
-  const [cardIsFavorite, setIsFavorite] = useState(isFavorite);
+function Bookmark({cardId, size}: BookmarkProps): JSX.Element {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
+  const isFavorite = favoriteOffers.some((offer) => offer.id === cardId);
+  const navigate = useNavigate();
   const type = size === 'big' ? 'offer' : 'place-card';
-  const iconClasses = cardIsFavorite ? `${type}__bookmark-icon--favorite` : `${type}__bookmark-icon`;
+  const iconClasses = isFavorite ? `${type}__bookmark-icon--favorite` : `${type}__bookmark-icon`;
+
+  const handleButtonClick = () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate('/404');
+      return;
+    }
+
+    const status = Number(!isFavorite);
+    store.dispatch(changeCardFavoriteStatus({id: cardId, status}));
+  };
 
   return (
-    <button onClick={() => setIsFavorite(!cardIsFavorite)} className={`${type}__bookmark-button button`} type="button">
+    <button onClick={handleButtonClick} className={`${type}__bookmark-button button`} type="button">
       <svg className={iconClasses} width={size === 'big' ? 31 : 18} height={size === 'big' ? 33 : 19}>
         <use xlinkHref="#icon-bookmark"></use>
       </svg>

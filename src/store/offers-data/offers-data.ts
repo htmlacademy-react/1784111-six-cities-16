@@ -5,7 +5,8 @@ import {
   fetchOffersAction,
   fetchOfferByIdAction,
   fetchNearOffersAction,
-  fetchCommentsAction
+  fetchCommentsAction,
+  fetchFavoriteOffersAction
 } from '../api-actions';
 
 const initialState: OffersData = {
@@ -14,6 +15,7 @@ const initialState: OffersData = {
   offer: null,
   nearOffers: [],
   offerComments: [],
+  favoriteOffers: []
 };
 
 export const offersData = createSlice({
@@ -37,6 +39,9 @@ export const offersData = createSlice({
       })
       .addCase(fetchCommentsAction.fulfilled, (state, action) => {
         state.offerComments = action.payload;
+      })
+      .addCase(fetchFavoriteOffersAction.fulfilled, (state, action) => {
+        state.favoriteOffers = action.payload;
       });
   }
 });

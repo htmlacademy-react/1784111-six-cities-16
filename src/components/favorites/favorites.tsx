@@ -1,10 +1,9 @@
 import { Offer } from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 import { useAppSelector } from '../../hooks';
-import { getOffers } from '../../store/offers-data/selectors';
+import { getFavoriteOffers } from '../../store/offers-data/selectors';
 function Favorites(): JSX.Element {
-  const offers = useAppSelector(getOffers);
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
   const offersByCity = favoriteOffers.reduce((acc: Record<string, Offer[]>, offer) => {
     const cityName = offer.city.name;
 
@@ -23,7 +22,7 @@ function Favorites(): JSX.Element {
         <h1 className="favorites__title">Saved listing</h1>
         <ul className="favorites__list">
           {Object.entries(offersByCity).map(([cityName, cityOffers]) => (
-            <li key={Math.random()} className="favorites__locations-items">
+            <li key={crypto.randomUUID()} className="favorites__locations-items">
               <div className="favorites__locations locations locations--current">
                 <div className="locations__item">
                   <a className="locations__item-link" href="#">

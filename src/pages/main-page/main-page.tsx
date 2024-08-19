@@ -9,6 +9,7 @@ import Map from '../../components/map/map';
 import { useAppSelector } from '../../hooks';
 import { getOffers } from '../../store/offers-data/selectors';
 import { getActiveSortingType, getActiveCity } from '../../store/app-data/selectors';
+import OffersNotFound from '../../components/offers-not-found/offers-not-found';
 
 const MemoizedOffersList = memo(OffersList);
 
@@ -38,29 +39,31 @@ function MainPage(): JSX.Element {
           <LocationsList activeCity={activeCity} />
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              {!activeCityLength ?
-                <b className="places__found">{`No places to stay in ${activeCity}`}</b> :
-                <>
-                  <PlacesOptions
-                    activeSortingType={activeSortingType}
+          {offers.length ?
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                {!activeCityLength ?
+                  <b className="places__found">{`No places to stay in ${activeCity}`}</b> :
+                  <>
+                    <PlacesOptions
+                      activeSortingType={activeSortingType}
+                    />
+                    <MemoizedOffersList
+                      offersBySortingType={offersBySortingType}
+                      onOffersListHover={handleOffersListHover}
+                    />
+                  </>}
+              </section>
+              {activeCityLength ?
+                <div className="cities__right-section">
+                  <Map
+                    offers={offersByActiveCity}
+                    selectedOffer={selectedOffer}
                   />
-                  <MemoizedOffersList
-                    offersBySortingType={offersBySortingType}
-                    onOffersListHover={handleOffersListHover}
-                  />
-                </>}
-            </section>
-            {activeCityLength ?
-              <div className="cities__right-section">
-                <Map
-                  offers={offersByActiveCity}
-                  selectedOffer={selectedOffer}
-                />
-              </div> : null}
-          </div>
+                </div> : null}
+            </div> :
+            <OffersNotFound />}
         </div>
       </main>
     </div>
