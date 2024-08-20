@@ -13,6 +13,7 @@ export type OffersData = {
   offer: OfferFull | null;
   nearOffers: Offers;
   offerComments: Comments;
+  favoriteOffers: Offers;
 }
 
 export type State = ReturnType<typeof store.getState>;

@@ -78,7 +78,7 @@ function OfferPage(): JSX.Element {
                 <h1 className="offer__name">
                   {offer.title}
                 </h1>
-                <Bookmark isFavorite={offer.isFavorite} size={'big'} />
+                <Bookmark cardId={offer.id} size={'big'} />
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
