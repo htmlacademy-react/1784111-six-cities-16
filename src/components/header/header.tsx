@@ -10,6 +10,7 @@ import { store } from '../../store';
 import { useEffect } from 'react';
 import { getFavoriteOffers } from '../../store/offers-data/selectors';
 import Logo from '../logo/logo';
+import './header.css';
 
 function Header(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
@@ -53,9 +54,9 @@ function Header(): JSX.Element {
                     </Link>
                   </li>
                   <li className="header__nav-item">
-                    <a className="header__nav-link" href="#">
+                    <div className="header__nav-link">
                       <span onClick={handleLogout} className="header__signout">Sign out</span>
-                    </a>
+                    </div>
                   </li>
                 </>}
             </ul>

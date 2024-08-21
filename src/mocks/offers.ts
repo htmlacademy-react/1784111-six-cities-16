@@ -1,167 +1,79 @@
-import { OfferFull, OffersFull } from '../types/offer';
+import { Offer, Offers, OfferFull } from '../types/offer';
+import faker from 'faker';
 
-export const offerFull: OffersFull = [
-  {
-    id: '0af9f711-c28d-4121-82cd-e0b462a27f00',
-    title: 'Beautiful & luxurious studio at great location',
-    type: 'apartment',
-    price: 120,
-    city: {
-      name: 'Amsterdam',
-      location: {
-        latitude: 52.35514938496378,
-        longitude: 4.673877537499948,
-        zoom: 8
-      }
-    },
-    location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
-      zoom: 8
-    },
-    isFavorite: false,
-    isPremium: false,
-    rating: 4,
-    description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
-    bedrooms: 3,
-    goods: ['Heating'],
-    host: {
-      name: 'Oliver Conner',
-      avatarUrl: 'https://url-to-image/image.png',
-      isPro: false
-    },
-    images: ['https://url-to-image/image.png'],
-    maxAdults: 4
-  },
-  {
-    id: '1af6f711-c28d-4121-82cd-e0b672a27f00',
-    title: 'At great location',
-    type: 'room',
-    price: 1250,
-    city: {
-      name: 'Paris',
-      location: {
-        latitude: 53.35514938496378,
-        longitude: 6.673877537499948,
-        zoom: 8
-      }
-    },
-    location: {
-      latitude: 53.35514938496378,
-      longitude: 5.673877537499948,
-      zoom: 8
-    },
-    isFavorite: false,
-    isPremium: false,
-    rating: 3,
-    description: 'A charming room in the heart of Paris, perfect for couples.',
-    bedrooms: 1,
-    goods: ['Wi-Fi', 'Air Conditioning'],
-    host: {
-      name: 'Sophie Dupont',
-      avatarUrl: 'https://url-to-image/another-image.png',
-      isPro: true
-    },
-    images: ['https://url-to-image/another-image.png'],
-    maxAdults: 2
-  },
-  {
-    id: '9af6f711-c84d-4121-82cd-e0b462a27f00',
-    title: 'Beautiful studio',
+export function generateMockOffer(): Offer {
+  return {
+    id: crypto.randomUUID(),
+    title: 'Title',
     type: 'house',
-    price: 130,
+    price: 1000,
     city: {
-      name: 'Brussels',
+      name: faker.address.city(),
       location: {
-        latitude: 60.35514938496378,
-        longitude: 8.673877537499948,
-        zoom: 8
-      }
+        latitude: Number(faker.address.latitude()),
+        longitude: Number(faker.address.longitude()),
+        zoom: 10,
+      },
     },
     location: {
-      latitude: 60.35514938496378,
-      longitude: 8.673877537499948,
-      zoom: 8
+      latitude: Number(faker.address.latitude()),
+      longitude: Number(faker.address.longitude()),
+      zoom: 10,
     },
-    isFavorite: true,
-    isPremium: true,
-    rating: 4.5,
-    description: 'A spacious studio apartment in Brussels, ideal for families.',
-    bedrooms: 2,
-    goods: ['Elevator', 'Parking'],
-    host: {
-      name: 'Jean-Pierre Leclerc',
-      avatarUrl: 'https://url-to-image/yet-another-image.png',
-      isPro: false
-    },
-    images: ['https://url-to-image/yet-another-image.png'],
-    maxAdults: 4
-  },
-  {
-    id: '3af6f711-c30d-4121-82cd-e0b462a27f00',
-    title: 'Luxurious studio at great location',
-    type: 'hotel',
-    price: 1200,
-    city: {
-      name: 'Hamburg',
-      location: {
-        latitude: 52.35514938496378,
-        longitude: 4.673877537499948,
-        zoom: 8
-      }
-    },
-    location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
-      zoom: 8
-    },
-    isFavorite: true,
-    isPremium: false,
-    rating: 2,
-    description: 'Experience luxury in Hamburg with this stunning hotel suite.',
-    bedrooms: 1,
-    goods: ['Breakfast Included', 'Pool'],
-    host: {
-      name: 'Anna Schmidt',
-      avatarUrl: 'https://url-to-image/final-image.png',
-      isPro: true
-    },
-    images: ['https://url-to-image/final-image.png'],
-    maxAdults: 3
-  },{
-    id: '3ak6f711-c30d-4187-82cd-e0b462a27f00',
-    title: 'Luxurious studio',
-    type: 'hotel',
-    price: 12000,
-    city: {
-      name: 'Hamburg',
-      location: {
-        latitude: 62.35514938496378,
-        longitude: 7.673877537499948,
-        zoom: 8
-      }
-    },
-    location: {
-      latitude: 62.35514938496378,
-      longitude: 7.673877537499948,
-      zoom: 8
-    },
-    isFavorite: true,
-    isPremium: false,
-    rating: 4,
-    description: 'A top-notch studio in Hamburg, offering unparalleled luxury and comfort.',
-    bedrooms: 1,
-    goods: ['Jacuzzi', 'Sauna'],
-    host: {
-      name: 'Max Müller',
-      avatarUrl: 'https://url-to-image/image.png',
-      isPro: true
-    },
-    images: ['https://url-to-image/image.png', 'https://url-to-image/another-luxurious-view.png'],
-    maxAdults: 2
-  }
-];
+    isFavorite: Math.random() >= 0.5,
+    isPremium: Math.random() >= 0.5,
+    rating: Math.floor(Math.random() * 5) + 1,
+    previewImage: 'https://via.placeholder.com/150',
+  };
+}
 
-export function findOfferById(id: string): OfferFull | undefined {
-  return offerFull.find((offer) => offer.id === id);
+export function generateMockOfferFull(): OfferFull {
+  const goodsCount = faker.datatype.number({ min: 1, max: 4 });
+  const goods = faker.random.arrayElements(['Wi-Fi', 'TV', 'Kitchen', 'Air conditioning', 'Heating', 'Washing machine'], goodsCount);
+
+  return {
+    id: faker.datatype.uuid(),
+    title: faker.lorem.words(3),
+    type: faker.random.arrayElement(['Apartment', 'House', 'Room']),
+    price: parseFloat(faker.commerce.price()),
+    city: {
+      name: faker.address.city(),
+      location: {
+        latitude: parseFloat(faker.address.latitude()),
+        longitude: parseFloat(faker.address.longitude()),
+        zoom: faker.datatype.number({ min: 10, max: 18 }),
+      },
+    },
+    location: {
+      latitude: parseFloat(faker.address.latitude()),
+      longitude: parseFloat(faker.address.longitude()),
+      zoom: faker.datatype.number({ min: 10, max: 18 }),
+    },
+    isFavorite: faker.datatype.boolean(),
+    isPremium: faker.datatype.boolean(),
+    rating: faker.datatype.float({ min: 1, max: 5, precision: 0.1 }),
+    description: faker.lorem.paragraph(1),
+    bedrooms: faker.datatype.number({ min: 1, max: 5 }),
+    goods,
+    host: {
+      name: faker.name.findName(),
+      avatarUrl: 'https://via.placeholder.com/150',
+      isPro: faker.datatype.boolean(),
+    },
+    images: [
+      `https://via.placeholder.com/300x200?text=${faker.random.word()}`,
+      `https://via.placeholder.com/300x200?text=${faker.random.word()}`
+    ],
+    maxAdults: faker.datatype.number({ min: 1, max: 10 }),
+  };
+}
+
+export function generateMockOffers(amount: number): Offers {
+  const offers = [];
+
+  for (let i = 0; i < amount; i++) {
+    offers.push(generateMockOffer());
+  }
+
+  return offers;
 }

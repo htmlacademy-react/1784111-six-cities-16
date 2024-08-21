@@ -1,4 +1,4 @@
-import {Route, BrowserRouter, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import { AppRoute } from '../../const';
 import MainPage from '../../pages/main-page/main-page';
 import LoginPage from '../../pages/login-page/login-page';
@@ -10,6 +10,7 @@ import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import { useAppSelector } from '../../hooks';
 import {getAuthorizationStatus, getAuthCheckedStatus} from '../../store/user-process/selectors';
 import { getOffersDataLoadingStatus } from '../../store/offers-data/selectors';
+import { HelmetProvider } from 'react-helmet-async';
 
 function App(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
@@ -23,7 +24,7 @@ function App(): JSX.Element {
   }
 
   return (
-    <BrowserRouter>
+    <HelmetProvider>
       <Routes>
         <Route
           path={AppRoute.Main}
@@ -52,7 +53,7 @@ function App(): JSX.Element {
           element={<Page404 />}
         />
       </Routes>
-    </BrowserRouter>
+    </HelmetProvider>
   );
 }
 

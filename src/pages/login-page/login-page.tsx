@@ -6,6 +6,7 @@ import {loginAction} from '../../store/api-actions';
 import {AppRoute} from '../../const';
 import { AuthorizationStatus } from '../../const';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { Link } from 'react-router-dom';
 
 function LoginPage(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
@@ -53,9 +54,9 @@ function LoginPage(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
+              <Link to={AppRoute.Main} className="locations__item-link">
                 <span>Amsterdam</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>
