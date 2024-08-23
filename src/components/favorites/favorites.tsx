@@ -2,6 +2,7 @@ import { Offer } from '../../types/offer';
 import OfferCard from '../offer-card/offer-card';
 import { useAppSelector } from '../../hooks';
 import { getFavoriteOffers } from '../../store/offers-data/selectors';
+
 function Favorites(): JSX.Element {
   const favoriteOffers = useAppSelector(getFavoriteOffers);
   const offersByCity = favoriteOffers.reduce((acc: Record<string, Offer[]>, offer) => {
@@ -25,9 +26,9 @@ function Favorites(): JSX.Element {
             <li key={crypto.randomUUID()} className="favorites__locations-items">
               <div className="favorites__locations locations locations--current">
                 <div className="locations__item">
-                  <a className="locations__item-link" href="#">
+                  <div className="locations__item-link">
                     <span>{cityName}</span>
-                  </a>
+                  </div>
                 </div>
               </div>
 

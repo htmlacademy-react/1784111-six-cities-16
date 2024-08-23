@@ -9,7 +9,7 @@ function Logo({type}: LogoProps) {
   const logoSize = type === 'header' ? {width: 81, height: 41} : {width: 64, height: 33};
 
   return (
-    <Link to={AppRoute.Main} className={`${type}-link`}>
+    <Link to={AppRoute.Main} className={`${type}-link`} data-testid="logo">
       <img className={`${type}-logo`} src="img/logo.svg" alt="6 cities logo" style={logoSize} />
     </Link>
   );

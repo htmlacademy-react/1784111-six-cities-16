@@ -1,6 +1,7 @@
 import { AVAILABLE_CITIES } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { setActiveCity } from '../../store/app-data/app-data';
+import './locations-list.css';
 
 type LocationsListProps = {
   activeCity: string;
@@ -22,9 +23,9 @@ function LocationsList({activeCity}: LocationsListProps) {
           const classes = city === activeCity ? 'locations__item-link tabs__item tabs__item--active' : 'locations__item-link tabs__item';
           return (
             <li key={crypto.randomUUID()} className="locations__item">
-              <a className={classes} href="#">
+              <div className={classes}>
                 <span onClick={(e) => handleSpanClick(e)}>{city}</span>
-              </a>
+              </div>
             </li>
           );
         })}
