@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { AuthorizationStatus } from '../../const';
@@ -15,6 +15,7 @@ import './header.css';
 function Header(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const favoritesOffers = useAppSelector(getFavoriteOffers);
+  const navigate = useNavigate();
   const {userEmail, userAvatar} = useAppSelector(getUserData);
 
   useEffect(() => {
@@ -26,6 +27,7 @@ function Header(): JSX.Element {
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logoutAction());
+    navigate(AppRoute.Main);
   };
 
   return (
@@ -55,7 +57,7 @@ function Header(): JSX.Element {
                   </li>
                   <li className="header__nav-item">
                     <div className="header__nav-link">
-                      <span onClick={handleLogout} className="header__signout">Sign out</span>
+                      <span onClick={handleLogout} className="header__signout">Log Out</span>
                     </div>
                   </li>
                 </>}

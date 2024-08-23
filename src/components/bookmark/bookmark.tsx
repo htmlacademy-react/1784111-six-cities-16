@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +22,7 @@ function Bookmark({cardId, size}: BookmarkProps): JSX.Element {
 
   const handleButtonClick = () => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
-      navigate('/404');
+      navigate(AppRoute.Login);
       return;
     }
 

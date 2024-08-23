@@ -3,7 +3,7 @@ import {Icon, Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Offer, OfferFull, Offers } from '../../types/offer';
 import useMap from '../../hooks/use-map';
-import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
+import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT, CARDS_FOR_VIEW} from '../../const';
 
 type MapProps = {
   type?: string;
@@ -22,8 +22,6 @@ const currentCustomIcon = new Icon({
   iconSize: [40, 40],
   iconAnchor: [20, 40]
 });
-
-const CARDS_FOR_VIEW = 3;
 
 function Map({type, selectedOffer, offers}: MapProps): JSX.Element {
   const [defaultCoordinats, setDefaultCoordinats] = useState(

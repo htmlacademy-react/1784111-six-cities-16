@@ -1,4 +1,4 @@
-import { Offer, Offers, OfferFull } from '../types/offer';
+import { Offer, OfferFull } from '../types/offer';
 import faker from 'faker';
 
 export function generateMockOffer(): Offer {
@@ -66,14 +66,4 @@ export function generateMockOfferFull(): OfferFull {
     ],
     maxAdults: faker.datatype.number({ min: 1, max: 10 }),
   };
-}
-
-export function generateMockOffers(amount: number): Offers {
-  const offers = [];
-
-  for (let i = 0; i < amount; i++) {
-    offers.push(generateMockOffer());
-  }
-
-  return offers;
 }

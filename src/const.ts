@@ -7,6 +7,7 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer/:id',
+  NotFound = '/404',
 }
 
 export enum APIRoute {
@@ -43,3 +44,7 @@ export const DEFAULT_SORTTING_TYPE = 'Popular';
 export const SORTING_TYPES = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
 
 export const RATING_STAR_WIDTH = 20;
+
+export const CARDS_FOR_VIEW = 3;
+
+export const USER_COMMENTS_TO_SHOW = 10;

@@ -5,8 +5,9 @@ import { AppRoute } from '../../const';
 import { AuthorizationStatus } from '../../const';
 import { withHistory, withStore } from '../../utils/mock-component';
 import { makeFakeStore } from '../../utils/mock';
-// import { generateMockOfferFull, generateMockOffer } from '../../mocks/offers';
-// import { generateMockComment } from '../../mocks/comment';
+import { generateMockOfferFull, generateMockOffer } from '../../mocks/offers';
+import { generateMockComment } from '../../mocks/comment';
+import '../../mocks/global-mocks';
 
 describe('App component routing', () => {
   let mockHistory: MemoryHistory;
@@ -51,29 +52,29 @@ describe('App component routing', () => {
     expect(screen.getByText('Saved listing')).toBeInTheDocument();
   });
 
-  // it('renders OfferPage when Offer route is accessed', () => {
-  //   const offerFull = generateMockOfferFull();
-  //   const mockOffer = generateMockOffer();
-  //   mockOffer.id = offerFull.id;
-  //   const comment = generateMockComment();
-  //   const withHistoryComponent = withHistory(<App />, mockHistory);
-  //   const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
-  //     USER_PROCESS: { authorizationStatus: AuthorizationStatus.Auth },
-  //     DATA: {
-  //       offers: [mockOffer],
-  //       isOffersDataLoading: false,
-  //       offer: offerFull,
-  //       nearOffers: [mockOffer],
-  //       offerComments: [comment],
-  //       favoriteOffers: [mockOffer]
-  //     }
-  //   }));
-  //   mockHistory.push(`/offer/${offerFull.id}`);
+  it('renders OfferPage when Offer route is accessed', () => {
+    const offerFull = generateMockOfferFull();
+    const mockOffer = generateMockOffer();
+    mockOffer.id = offerFull.id;
+    const comment = generateMockComment();
+    const withHistoryComponent = withHistory(<App />, mockHistory);
+    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
+      USER_PROCESS: { authorizationStatus: AuthorizationStatus.Auth },
+      DATA: {
+        offers: [mockOffer],
+        isOffersDataLoading: false,
+        offer: offerFull,
+        nearOffers: [mockOffer],
+        offerComments: [comment],
+        favoriteOffers: [mockOffer]
+      }
+    }));
+    mockHistory.push(`/offer/${offerFull.id}`);
 
-  //   render(withStoreComponent);
+    render(withStoreComponent);
 
-  //   expect(screen.getByText('Other places in the neighbourhood')).toBeInTheDocument();
-  // });
+    expect(screen.getByText('Other places in the neighbourhood')).toBeInTheDocument();
+  });
 
   it('renders Page404 when any other route is accessed', () => {
     const withHistoryComponent = withHistory(<App />, mockHistory);

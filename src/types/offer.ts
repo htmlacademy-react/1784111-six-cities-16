@@ -56,4 +56,3 @@ export type OfferFull = {
 }
 
 export type Offers = Offer[];
-export type OffersFull = OfferFull[];
