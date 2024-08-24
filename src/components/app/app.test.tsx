@@ -40,16 +40,37 @@ describe('App component routing', () => {
     expect(screen.getByText('Password')).toBeInTheDocument();
   });
 
-  it('renders FavoritesPage when Favorites route is accessed', () => {
+  it('renders FavoritesPage when Favorites route is accessed and there are favoriteOffers', () => {
+    const mockOffer = generateMockOffer();
     const withHistoryComponent = withHistory(<App />, mockHistory);
     const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
-      USER_PROCESS: { authorizationStatus: AuthorizationStatus.Auth }
+      USER_PROCESS: { authorizationStatus: AuthorizationStatus.Auth },
+      DATA: {
+        offers: [],
+        isOffersDataLoading: false,
+        offer: null,
+        nearOffers: [],
+        offerComments: [],
+        favoriteOffers: [mockOffer]
+      },
     }));
     mockHistory.push(AppRoute.Favorites);
 
     render(withStoreComponent);
 
     expect(screen.getByText('Saved listing')).toBeInTheDocument();
+  });
+
+  it('renders FavoritesPage when Favorites route is accessed', () => {
+    const withHistoryComponent = withHistory(<App />, mockHistory);
+    const { withStoreComponent } = withStore(withHistoryComponent, makeFakeStore({
+      USER_PROCESS: { authorizationStatus: AuthorizationStatus.Auth },
+    }));
+    mockHistory.push(AppRoute.Favorites);
+
+    render(withStoreComponent);
+
+    expect(screen.getByText('Favorites (empty)')).toBeInTheDocument();
   });
 
   it('renders OfferPage when Offer route is accessed', () => {

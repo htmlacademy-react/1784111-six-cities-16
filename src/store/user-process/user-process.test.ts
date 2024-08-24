@@ -40,6 +40,15 @@ describe(' Slice: UserProcess', () => {
     expect(result).toEqual(expectedState);
   });
 
+  // it('should set "Auth" with "checkAuthAction.fulfilled" action', () => {
+  //   const initialState = { authorizationStatus: AuthorizationStatus.NoAuth };
+  //   const expectedState = { authorizationStatus: AuthorizationStatus.Auth };
+
+  //   const result = userProcess.reducer(initialState, checkAuthAction.fulfilled);
+
+  //   expect(result).toEqual(expectedState);
+  // });
+
   it('should set "NoAuth" with "loginAction.rejected" action', () => {
     const initialState = { authorizationStatus: AuthorizationStatus.Auth };
     const expectedState = { authorizationStatus: AuthorizationStatus.NoAuth };

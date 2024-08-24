@@ -30,3 +30,5 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
   },
   ...initialState ?? {},
 });
+
+export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({ type }) => type);
