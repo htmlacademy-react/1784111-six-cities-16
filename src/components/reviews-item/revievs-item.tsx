@@ -1,7 +1,7 @@
 import { formatDateToCustomFormat } from '../../utils/utils';
 import { Comment } from '../../types/comment';
 import { RATING_STAR_WIDTH } from '../../const';
-import { normalizedRating } from '../../utils/utils';
+import { normalizeRating } from '../../utils/utils';
 
 type ReviewsItemProps = {
   userComment: Comment;
@@ -26,7 +26,7 @@ function ReviewsItem({userComment}: ReviewsItemProps) {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: `${normalizedRating(rating) * RATING_STAR_WIDTH}%`}}></span>
+            <span style={{width: `${normalizeRating(rating) * RATING_STAR_WIDTH}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

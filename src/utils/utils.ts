@@ -39,4 +39,9 @@ export function formatDateToCustomFormat(dateString: string, format: string) {
   return formattedDate;
 }
 
-export const normalizedRating = (rating: number) => Math.ceil(rating);
+export function getRandomArrayElement<T>(array: T[]): T {
+  const randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
+}
+
+export const normalizeRating = (rating: number) => Math.ceil(rating);

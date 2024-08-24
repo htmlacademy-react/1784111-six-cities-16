@@ -12,7 +12,7 @@ function OffersList({offersBySortingType, onOffersListHover}: OffersListProps): 
   };
 
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className="cities__places-list places__list tabs__content" data-testid="offers-list">
       {offersBySortingType.map((offer) => {
         const {id} = offer;
         return (

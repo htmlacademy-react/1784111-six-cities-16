@@ -3,7 +3,7 @@ import {Icon, Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Offer, OfferFull, Offers } from '../../types/offer';
 import useMap from '../../hooks/use-map';
-import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
+import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT, CARDS_FOR_VIEW} from '../../const';
 
 type MapProps = {
   type?: string;
@@ -23,10 +23,8 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-const CARDS_FOR_VIEW = 3;
-
 function Map({type, selectedOffer, offers}: MapProps): JSX.Element {
-  const [defaultCoordinats, setDefaultCoordinats] = useState(
+  const [defaultCoordinates, setDefaultCoordinates] = useState(
     type === 'offerPageMap' && selectedOffer !== null ?
       selectedOffer.city.location :
       offers[0].city.location
@@ -35,17 +33,17 @@ function Map({type, selectedOffer, offers}: MapProps): JSX.Element {
   useEffect(() => {
     if (offers.length > 0 && type !== 'offerPageMap') {
       const activeCityLocation = offers[0].city.location;
-      setDefaultCoordinats(activeCityLocation);
+      setDefaultCoordinates(activeCityLocation);
     } else {
       if (selectedOffer !== null) {
         const activeCityLocation = selectedOffer.city.location;
-        setDefaultCoordinats(activeCityLocation);
+        setDefaultCoordinates(activeCityLocation);
       }
     }
   }, [offers, type, selectedOffer]);
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, defaultCoordinats);
+  const map = useMap(mapRef, defaultCoordinates);
 
   const cardOffers = useMemo(() => {
     if (type === 'offerPageMap') {
@@ -57,7 +55,7 @@ function Map({type, selectedOffer, offers}: MapProps): JSX.Element {
 
   useEffect(() => {
     if (map) {
-      map.setView([defaultCoordinats.latitude, defaultCoordinats.longitude], defaultCoordinats.zoom);
+      map.setView([defaultCoordinates.latitude, defaultCoordinates.longitude], defaultCoordinates.zoom);
       const markerLayer = layerGroup().addTo(map);
       cardOffers.forEach((offer) => {
         if (offer !== null) {
@@ -80,13 +78,14 @@ function Map({type, selectedOffer, offers}: MapProps): JSX.Element {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, cardOffers, selectedOffer, defaultCoordinats]);
+  }, [map, cardOffers, selectedOffer, defaultCoordinates]);
 
   return (
     <section
       style={{height: '500px'}}
       ref={mapRef}
       className={type === 'offerPageMap' ? 'offer__map map' : 'cities__map map'}
+      data-testid='map'
     >
     </section>
   );

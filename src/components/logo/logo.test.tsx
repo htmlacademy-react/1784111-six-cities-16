@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Logo from './logo';
 
-describe('Logo component', () => {
+describe('Component: Logo', () => {
   it('should renders correctly with valid type', () => {
     const { getByTestId } = render(
       <MemoryRouter>

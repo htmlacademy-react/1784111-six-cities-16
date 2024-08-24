@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +22,7 @@ function Bookmark({cardId, size}: BookmarkProps): JSX.Element {
 
   const handleButtonClick = () => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
-      navigate('/404');
+      navigate(AppRoute.Login);
       return;
     }
 
@@ -31,7 +31,7 @@ function Bookmark({cardId, size}: BookmarkProps): JSX.Element {
   };
 
   return (
-    <button onClick={handleButtonClick} className={`${type}__bookmark-button button`} type="button">
+    <button onClick={handleButtonClick} className={`${type}__bookmark-button button`} type="button" data-testid="bookmark">
       <svg className={iconClasses} width={size === 'big' ? 31 : 18} height={size === 'big' ? 33 : 19}>
         <use xlinkHref="#icon-bookmark"></use>
       </svg>

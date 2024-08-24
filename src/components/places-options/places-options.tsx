@@ -15,7 +15,7 @@ function PlacesOptions({activeSortingType}:PlacesOptionsProps) {
 
   return (
     <form className="places__sorting" action="#" method="get">
-      <span className="places__sorting-caption">Sort by</span>
+      <span className="places__sorting-caption">Sort by&nbsp;</span>
       <span
         onClick={() => setMenuOpened(!isMenuOpened)}
         className="places__sorting-type"

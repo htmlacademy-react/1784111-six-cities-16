@@ -46,6 +46,7 @@ function MainPage(): JSX.Element {
                 {!activeCityLength ?
                   <b className="places__found">{`No places to stay in ${activeCity}`}</b> :
                   <>
+                    <b className="places__found">{`${activeCityLength} places to stay in ${activeCity}`}</b>
                     <PlacesOptions
                       activeSortingType={activeSortingType}
                     />

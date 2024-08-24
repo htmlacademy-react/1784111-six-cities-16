@@ -12,9 +12,9 @@ import { store } from '../../store';
 import { useAppSelector } from '../../hooks';
 import NearPlaces from '../../components/near-places/near-places';
 import ReviewsList from '../../components/reviews-list/reviews-list';
-import { AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { RATING_STAR_WIDTH } from '../../const';
-import { normalizedRating } from '../../utils/utils';
+import { normalizeRating } from '../../utils/utils';
 import Map from '../../components/map/map';
 import {
   getOfferById,
@@ -38,11 +38,11 @@ function OfferPage(): JSX.Element {
           await store.dispatch(fetchOfferByIdAction(id)).unwrap();
           await store.dispatch(fetchNearOffersAction(id)).unwrap();
           await store.dispatch(fetchCommentsAction(id)).unwrap();
-        } catch (error) {
-          navigate('/404');
+        } catch {
+          navigate(AppRoute.NotFound);
         }
       } else {
-        navigate('/404');
+        navigate(AppRoute.NotFound);
       }
     };
 
@@ -82,7 +82,7 @@ function OfferPage(): JSX.Element {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: `${normalizedRating(offer.rating) * RATING_STAR_WIDTH}%`}}></span>
+                  <span style={{width: `${normalizeRating(offer.rating) * RATING_STAR_WIDTH}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offer.rating}</span>
@@ -99,7 +99,7 @@ function OfferPage(): JSX.Element {
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">{offer.price}</b>
+                <b className="offer__price-value">&euro;{offer.price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
@@ -116,7 +116,11 @@ function OfferPage(): JSX.Element {
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                  <div
+                    className={offer.host.isPro ?
+                      'offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper' :
+                      'offer__avatar-wrapper user__avatar-wrapper'}
+                  >
                     <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="offer__user-name">
