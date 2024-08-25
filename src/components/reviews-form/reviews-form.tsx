@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FormRatingInput from '../form-rating-input/form-rating-input';
 import { sendCommentAction } from '../../store/api-actions';
 import { store } from '../../store';
@@ -17,6 +17,12 @@ function ReviewsForm({id}: ReviewsFormProps) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
   const isTextMatch = (text: string) => text.length >= 50 && text.length <= 300;
+
+  useEffect(() => {
+    if (rating !== '' && isTextMatch(reviewText)) {
+      setIsSubmitDisabled(false);
+    }
+  }, [rating, reviewText]);
 
   const handleRatingChange = (ratingValue: number) => {
     setCheckedRating(ratingValue);
