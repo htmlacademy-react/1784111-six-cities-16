@@ -41,6 +41,7 @@ describe('Component: FormRatinInput', () => {
         title={title}
         checkedRating={checkedRating}
         onFormRatinInputChange={onFormRatinInputChange}
+        isFormSending={false}
       />
     );
     const radioButton = container.querySelector('input[name="rating"]') as HTMLInputElement;
