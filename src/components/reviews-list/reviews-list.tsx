@@ -7,7 +7,7 @@ type ReviewsListProps = {
 }
 
 function ReviewsList({comments}: ReviewsListProps) {
-  const userComments = [comments].reverse();
+  const userComments = [...comments].reverse();
 
   return (
     <ul className="reviews__list">
