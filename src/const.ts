@@ -48,3 +48,5 @@ export const RATING_STAR_WIDTH = 20;
 export const CARDS_FOR_VIEW = 3;
 
 export const USER_COMMENTS_TO_SHOW = 10;
+
+export const MAX_OFFER_IMAGES = 6;

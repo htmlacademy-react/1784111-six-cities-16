@@ -4,11 +4,16 @@ import { Offers } from '../../types/offer';
 type OffersListProps = {
   offersBySortingType: Offers;
   onOffersListHover: (offerItemId: string) => void;
+  onOffersListMouseLeave: () => void;
 }
 
-function OffersList({offersBySortingType, onOffersListHover}: OffersListProps): JSX.Element {
+function OffersList({offersBySortingType, onOffersListHover, onOffersListMouseLeave}: OffersListProps): JSX.Element {
   const handleOfferCardHover = (id: string) => {
     onOffersListHover(id);
+  };
+
+  const handleOfferMouseLeave = () => {
+    onOffersListMouseLeave();
   };
 
   return (
@@ -18,6 +23,7 @@ function OffersList({offersBySortingType, onOffersListHover}: OffersListProps): 
         return (
           <OfferCard
             onMouseEnter={() => handleOfferCardHover(id)}
+            onMouseLeave={() => handleOfferMouseLeave()}
             key={crypto.randomUUID()}
             offer={offer}
             cardType={'cities'}

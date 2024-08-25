@@ -13,7 +13,7 @@ import { useAppSelector } from '../../hooks';
 import NearPlaces from '../../components/near-places/near-places';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { RATING_STAR_WIDTH } from '../../const';
+import { RATING_STAR_WIDTH, MAX_OFFER_IMAGES } from '../../const';
 import { normalizeRating } from '../../utils/utils';
 import Map from '../../components/map/map';
 import {
@@ -30,6 +30,7 @@ function OfferPage(): JSX.Element {
   const nearOffers = useAppSelector(getNearOffers);
   const comments = useAppSelector(getOfferComments);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +62,7 @@ function OfferPage(): JSX.Element {
           <div className="offer__gallery-container container">
             {offer.images.length ?
               <div className="offer__gallery">
-                {offer.images.map((imageUrl) => (
+                {offer.images.slice(0, MAX_OFFER_IMAGES).map((imageUrl) => (
                   <div key={Math.random()} className="offer__image-wrapper">
                     <img className="offer__image" src={imageUrl} alt="Photo studio" />
                   </div>
