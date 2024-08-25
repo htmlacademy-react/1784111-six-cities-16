@@ -6,6 +6,6 @@ describe('Component: OffersNotFound', () => {
     const { getByText } = render(<OffersNotFound activeCity={'Paris'}/>);
 
     expect(getByText('No places to stay available')).toBeInTheDocument();
-    expect(getByText('We could not find any property available at the moment in')).toBeInTheDocument();
+    expect(getByText('We could not find any property available at the moment in Paris')).toBeInTheDocument();
   });
 });
