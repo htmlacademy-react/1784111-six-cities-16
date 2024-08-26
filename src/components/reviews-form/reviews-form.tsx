@@ -2,6 +2,7 @@ import { useState, useEffect} from 'react';
 import FormRatingInput from '../form-rating-input/form-rating-input';
 import { sendCommentAction } from '../../store/api-actions';
 import { store } from '../../store';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 type ReviewsFormProps = {
   id: string | undefined;
@@ -60,8 +61,7 @@ function ReviewsForm({id}: ReviewsFormProps) {
             id,
             comment: reviewText,
             rating
-          }));
-          clearForm();
+          })).then(unwrapResult).then(() => clearForm());
           setIsSubmitDisabled(true);
         } finally {
           setIsFormSending(false);
