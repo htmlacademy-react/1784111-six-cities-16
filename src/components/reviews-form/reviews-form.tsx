@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect} from 'react';
 import FormRatingInput from '../form-rating-input/form-rating-input';
 import { sendCommentAction } from '../../store/api-actions';
 import { store } from '../../store';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 type ReviewsFormProps = {
   id: string | undefined;
@@ -15,6 +16,7 @@ function ReviewsForm({id}: ReviewsFormProps) {
   const [checkedRating, setCheckedRating] = useState<number | null>(null);
   const [reviewText, setReviewText] = useState('');
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+  const [isFormSending, setIsFormSending] = useState(false);
 
   const isTextMatch = (text: string) => text.length >= 50 && text.length <= 300;
 
@@ -53,13 +55,17 @@ function ReviewsForm({id}: ReviewsFormProps) {
     e.preventDefault();
     const processSubmission = async () => {
       if (id !== undefined) {
-        await store.dispatch(sendCommentAction({
-          id,
-          comment: reviewText,
-          rating
-        }));
-        clearForm();
-        setIsSubmitDisabled(true);
+        setIsFormSending(true);
+        try {
+          await store.dispatch(sendCommentAction({
+            id,
+            comment: reviewText,
+            rating
+          })).then(unwrapResult).then(() => clearForm());
+          setIsSubmitDisabled(true);
+        } finally {
+          setIsFormSending(false);
+        }
       }
     };
     processSubmission();
@@ -78,6 +84,7 @@ function ReviewsForm({id}: ReviewsFormProps) {
               rating={ratingNumber}
               checkedRating={checkedRating}
               onFormRatinInputChange={handleRatingChange}
+              isFormSending={isFormSending}
             />
           );
         })}
@@ -89,6 +96,7 @@ function ReviewsForm({id}: ReviewsFormProps) {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={reviewText}
         onChange={(e) => handleReviewTextChange(e.target.value)}
+        readOnly={isFormSending}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

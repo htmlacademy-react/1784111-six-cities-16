@@ -25,15 +25,18 @@ function MainPage(): JSX.Element {
     setSelectedOffer(currentOffer);
   }, [offers]);
 
+  const handleOffersListMouseLeave = () => setSelectedOffer(null);
+
   const offersByActiveCity = findOffersByCity(activeCity, offers);
   const offersBySortingType = sortOffersByType(activeSortingType, offersByActiveCity);
 
   const activeCityLength = offersByActiveCity.length;
+  const mainClasses = offers.length ? 'page__main page__main--index' : 'page__main page__main--index page__main--index-empty';
 
   return (
     <div className="page page--gray page--main">
       <Header />
-      <main className="page__main page__main--index">
+      <main className={mainClasses}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <LocationsList activeCity={activeCity} />
@@ -46,13 +49,14 @@ function MainPage(): JSX.Element {
                 {!activeCityLength ?
                   <b className="places__found">{`No places to stay in ${activeCity}`}</b> :
                   <>
-                    <b className="places__found">{`${activeCityLength} places to stay in ${activeCity}`}</b>
+                    <b className="places__found">{`${activeCityLength} ${activeCityLength > 1 ? 'places' : 'place'} to stay in ${activeCity}`}</b>
                     <PlacesOptions
                       activeSortingType={activeSortingType}
                     />
                     <MemoizedOffersList
                       offersBySortingType={offersBySortingType}
                       onOffersListHover={handleOffersListHover}
+                      onOffersListMouseLeave={handleOffersListMouseLeave}
                     />
                   </>}
               </section>
@@ -64,7 +68,7 @@ function MainPage(): JSX.Element {
                   />
                 </div> : null}
             </div> :
-            <OffersNotFound />}
+            <OffersNotFound activeCity={activeCity} />}
         </div>
       </main>
     </div>

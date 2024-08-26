@@ -7,11 +7,11 @@ type ReviewsListProps = {
 }
 
 function ReviewsList({comments}: ReviewsListProps) {
-  const userComments = comments.slice(0, USER_COMMENTS_TO_SHOW).reverse();
+  const userComments = [...comments].reverse();
 
   return (
     <ul className="reviews__list">
-      {userComments.map((comment) => (
+      {userComments.slice(0, USER_COMMENTS_TO_SHOW).map((comment) => (
         <ReviewsItem
           userComment={comment}
           key={comment.id}

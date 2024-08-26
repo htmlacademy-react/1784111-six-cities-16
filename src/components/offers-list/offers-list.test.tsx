@@ -14,6 +14,7 @@ describe('Component: OffersList', () => {
         <OffersList
           offersBySortingType={mockOffers}
           onOffersListHover={vi.fn}
+          onOffersListMouseLeave={vi.fn}
         />,
       </MemoryRouter>,
       makeFakeStore()

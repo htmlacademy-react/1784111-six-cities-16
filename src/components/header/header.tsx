@@ -41,8 +41,8 @@ function Header(): JSX.Element {
             <ul className="header__nav-list">
               {authorizationStatus === AuthorizationStatus.NoAuth ?
                 <li className="header__nav-item">
-                  <Link to={AppRoute.Login} className="header__nav-link">
-                    Login
+                  <Link to={AppRoute.Login} className="header__nav-link header__nav-link--profile">
+                    Sign in
                   </Link>
                 </li> :
                 <>
@@ -57,7 +57,7 @@ function Header(): JSX.Element {
                   </li>
                   <li className="header__nav-item">
                     <div className="header__nav-link">
-                      <span onClick={handleLogout} className="header__signout">Log Out</span>
+                      <span onClick={handleLogout} className="header__signout">Sign out</span>
                     </div>
                   </li>
                 </>}

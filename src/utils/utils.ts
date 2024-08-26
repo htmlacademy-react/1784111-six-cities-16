@@ -44,4 +44,4 @@ export function getRandomArrayElement<T>(array: T[]): T {
   return array[randomIndex];
 }
 
-export const normalizeRating = (rating: number) => Math.ceil(rating);
+export const normalizeRating = (rating: number) => Math.round(rating);

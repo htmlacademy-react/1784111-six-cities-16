@@ -19,6 +19,7 @@ function Bookmark({cardId, size}: BookmarkProps): JSX.Element {
   const navigate = useNavigate();
   const type = size === 'big' ? 'offer' : 'place-card';
   const iconClasses = isFavorite ? `${type}__bookmark-icon--favorite` : `${type}__bookmark-icon`;
+  const buttonClasses = isFavorite ? `${type}__bookmark-button ${type}__bookmark-button--active button` : `${type}__bookmark-button button`;
 
   const handleButtonClick = () => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
@@ -31,7 +32,7 @@ function Bookmark({cardId, size}: BookmarkProps): JSX.Element {
   };
 
   return (
-    <button onClick={handleButtonClick} className={`${type}__bookmark-button button`} type="button" data-testid="bookmark">
+    <button onClick={handleButtonClick} className={buttonClasses} type="button" data-testid="bookmark">
       <svg className={iconClasses} width={size === 'big' ? 31 : 18} height={size === 'big' ? 33 : 19}>
         <use xlinkHref="#icon-bookmark"></use>
       </svg>

@@ -3,9 +3,10 @@ type FormRatinInputProps = {
   title: string;
   checkedRating: null | number;
   onFormRatinInputChange: (ratingValue: number) => void;
+  isFormSending: boolean;
 }
 
-function FormRatinInput({rating, title, checkedRating, onFormRatinInputChange}: FormRatinInputProps) {
+function FormRatinInput({rating, title, checkedRating, onFormRatinInputChange, isFormSending}: FormRatinInputProps) {
   return (
     <>
       <input
@@ -16,6 +17,7 @@ function FormRatinInput({rating, title, checkedRating, onFormRatinInputChange}: 
         id={`${rating}-stars`}
         type="radio"
         checked={checkedRating === rating}
+        disabled={isFormSending}
       />
       <label htmlFor={`${rating}-stars`} className="reviews__rating-label form__rating-label" title={title}>
         <svg className="form__star-image" width="37" height="33">
