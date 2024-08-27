@@ -50,12 +50,12 @@ function OfferCard({offer, cardType, onMouseEnter, onMouseLeave}: OfferCardProps
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
-      <div className={`${cardType}__image-wrapper' place-card__image-wrapper`}>
+      <div className={`${cardType}__image-wrapper place-card__image-wrapper`}>
         <Link to={offerPageUrl}>
           <img className="place-card__image" src={previewImage} width={cardType === 'favorites' ? 150 : 260} height={cardType === 'favorites' ? 110 : 200} alt="Place image" />
         </Link>
       </div>
-      <div className="place-card__info">
+      <div className={cardType === 'favorites' ? `${cardType}-card__info place-card__info` : 'place-card__info'}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>

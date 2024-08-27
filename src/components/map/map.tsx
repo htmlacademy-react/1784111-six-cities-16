@@ -82,7 +82,6 @@ function Map({type, selectedOffer, offers}: MapProps): JSX.Element {
 
   return (
     <section
-      style={{height: '500px'}}
       ref={mapRef}
       className={type === 'offerPageMap' ? 'offer__map map' : 'cities__map map'}
       data-testid='map'
