@@ -3,7 +3,7 @@ import Header from '../../components/header/header';
 import PlacesOptions from '../../components/places-options/places-options';
 import { Offer } from '../../types/offer';
 import OffersList from '../../components/offers-list/offers-list';
-import LocationsList from '../../components/locationsList/locations-list';
+import LocationsList from '../../components/locations-list/locations-list';
 import { findOffersByCity, sortOffersByType } from '../../utils/utils';
 import Map from '../../components/map/map';
 import { useAppSelector } from '../../hooks';
